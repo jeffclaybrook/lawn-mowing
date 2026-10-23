@@ -1,0 +1,88 @@
+import { redirect } from "next/navigation"
+import { getSession } from "@/lib/get-session"
+import { toChartData } from "@/lib/helpers"
+import { getRevenueAndExpenses, getTopCustomersByRevenue, getMostMowedLawns, getSummaryByPeriod, getYardsMowedThisYear } from "@/lib/queries/analytics"
+import type { MostMowedData, TopCustomersData } from "@/types"
+import { SidebarInset } from "@/components/ui/sidebar"
+import { AppSidebar } from "@/components/AppSidebar"
+import { Header } from "@/components/Header"
+import { MostMowedTable } from "@/components/analytics/MostMowedTable"
+import { SummaryCards } from "@/components/analytics/SummaryCards"
+import { TopCustomersTable } from "@/components/analytics/TopCustomersTable"
+import { TransactionsChart } from "@/components/analytics/TransactionsChart"
+
+export const instant = false
+
+export default async function Analytics() {
+ const session = await getSession()
+
+ if (!session) {
+  redirect("/auth/sign-in")
+ }
+
+ const [weekly, monthly, quarterly, yearly, topCustomers, mostMowed] = await Promise.all([
+  getRevenueAndExpenses("week"),
+  getRevenueAndExpenses("month"),
+  getRevenueAndExpenses("quarter"),
+  getRevenueAndExpenses("year"),
+  getTopCustomersByRevenue(),
+  getMostMowedLawns()
+ ])
+
+ const topCustomersData: TopCustomersData[] = topCustomers.map((customer) => ({
+  id: customer.customerId,
+  name: customer.customerName,
+  revenue: Number(customer.totalRevenue)
+ }))
+
+ const mostMowedData: MostMowedData[] = mostMowed.map((lawn) => ({
+  id: lawn.customerId,
+  name: lawn.customerName,
+  address: lawn.customerAddress,
+  mowingCount: lawn.mowingCount
+ }))
+
+ const currentYear = new Date().getFullYear()
+
+ const [summaryRows, yardsMowed] = await Promise.all([
+  getSummaryByPeriod("year"),
+  getYardsMowedThisYear()
+ ])
+
+ const thisYear = summaryRows.find((row) => row.key === `${currentYear}`)
+
+ const totalRevenue = thisYear?.totalRevenue ?? 0
+ const totalExpenses = thisYear?.totalExpenses ?? 0
+ const netProfit = thisYear?.netProfit ?? 0
+
+ return (
+  <>
+   <Header
+    userName={session?.user.name}
+    userImage={session?.user.image || undefined}
+    breadcrumbPage="Analytics"
+   />
+   <div className="flex flex-1">
+    <AppSidebar />
+    <SidebarInset className="flex flex-col gap-4 flex-1 pb-4 md:px-4 pt-[--header-height:calc(--spacing(14))] overflow-y-auto">
+     <div className="flex flex-col items-stretch space-y-4 pt-4 h-full">
+      <SummaryCards
+       totalRevenue={totalRevenue}
+       totalExpenses={totalExpenses}
+       netProfit={netProfit}
+       totalYardsMowed={yardsMowed}
+      />
+      <TransactionsChart
+       weekly={toChartData(weekly, "week")}
+       monthly={toChartData(monthly, "month")}
+       quarterly={toChartData(quarterly, "quarter")}
+       yearly={toChartData(yearly, "year")}
+      />
+      <TopCustomersTable customers={topCustomersData} />
+      <MostMowedTable mowings={mostMowedData} />
+     </div>
+    </SidebarInset>
+   </div>
+  </>
+ )
+}
