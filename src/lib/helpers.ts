@@ -9,7 +9,7 @@ export function formatCurrency(amount: number) {
  }).format(amount)
 }
 
-export function formatDate(date: Date) {
+export function formatShortDate(date: Date) {
  return new Intl.DateTimeFormat("en-US", {
   month: "short",
   day: "numeric",
@@ -29,7 +29,7 @@ export function formatDateInput(value: Date | string | null | undefined) {
  }
 
  return new Intl.DateTimeFormat("en-US", {
-  month: "short",
+  month: "long",
   day: "numeric",
   year: "numeric"
  }).format(date)

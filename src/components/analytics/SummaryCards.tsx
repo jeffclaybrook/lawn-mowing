@@ -16,7 +16,7 @@ export function SummaryCards({
  totalYardsMowed
 }: SummaryCardsProps) {
  return (
-  <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+  <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 px-4 md:px-0">
    <Card variant="mini" className="gap-2 p-4">
     <div className="flex items-center justify-between">
      <CardDescription className="text-muted-foreground text-base">Total Revenue</CardDescription>

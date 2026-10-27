@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react"
 import { ArrowUp, ArrowDown, ChevronLeft, ChevronRight } from "lucide-react"
-import { formatCapitalize, formatCurrency, formatDate } from "@/lib/helpers"
+import { formatCapitalize, formatCurrency, formatShortDate } from "@/lib/helpers"
 import type { TransactionListItem } from "@/lib/queries/transactions"
 import { Badge } from "../ui/badge"
 import { Button } from "../ui/button"
@@ -93,7 +93,7 @@ export function TransactionsTable({ transactions }: TransactionsTableProps) {
        <TableBody>
         {paginatedTransactions.map((transaction) => (
          <TableRow key={transaction.id} className="h-12">
-          <TableCell>{formatDate(transaction.date)}</TableCell>
+          <TableCell>{formatShortDate(transaction.date)}</TableCell>
           <TableCell>{transaction.label}</TableCell>
           <TableCell>
            <Badge

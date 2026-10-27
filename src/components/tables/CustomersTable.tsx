@@ -6,7 +6,7 @@ import { ArrowDown, ArrowUp, ChevronLeft, ChevronRight, EllipsisVertical, Pencil
 import { toast } from "sonner"
 import { deleteCustomer } from "@/actions/customers"
 import type { CustomersType } from "@/drizzle/schema"
-import { formatDate } from "@/lib/helpers"
+import { formatShortDate } from "@/lib/helpers"
 import type { CustomerListItem } from "@/lib/queries/customers"
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "../ui/alert-dialog"
 import { Button } from "../ui/button"
@@ -146,7 +146,7 @@ export function CustomersTable({ customers }: CustomersTableProps) {
           <TableRow key={customer.id} className="h-12">
            <TableCell>{customer.name}</TableCell>
            <TableCell>{customer.address}</TableCell>
-           <TableCell>{customer.lastMowedAt ? formatDate(customer.lastMowedAt as Date) : "Not mowed yet"}</TableCell>
+           <TableCell>{customer.lastMowedAt ? formatShortDate(customer.lastMowedAt as Date) : "Not mowed yet"}</TableCell>
            <TableCell className="text-end">
             <DropdownMenu>
              <DropdownMenuTrigger asChild>

@@ -65,7 +65,7 @@ export default async function Analytics() {
    <div className="flex flex-1">
     <AppSidebar />
     <SidebarInset className="flex flex-col gap-4 flex-1 pb-4 md:px-4 pt-[--header-height:calc(--spacing(14))] overflow-y-auto">
-     <div className="flex flex-col items-stretch space-y-4 pt-4 h-full">
+     <div className="flex flex-col items-stretch space-y-8 md:space-y-4 pt-4 h-full">
       <SummaryCards
        totalRevenue={totalRevenue}
        totalExpenses={totalExpenses}

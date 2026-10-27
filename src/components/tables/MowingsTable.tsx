@@ -6,7 +6,7 @@ import { ArrowDown, ArrowUp, ChevronLeft, ChevronRight, EllipsisVertical, Pencil
 import { toast } from "sonner"
 import { deleteMowing } from "@/actions/mowings"
 import type { CustomersType, MowingsType } from "@/drizzle/schema"
-import { formatCurrency, formatDate } from "@/lib/helpers"
+import { formatCurrency, formatShortDate } from "@/lib/helpers"
 import type { MowingListItem } from "@/lib/queries/mowings"
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "../ui/alert-dialog"
 import { Button } from "../ui/button"
@@ -149,7 +149,7 @@ export function MowingsTable({
         <TableBody>
          {paginatedMowings.map((mowing) => (
           <TableRow key={mowing.id} className="h-12">
-           <TableCell>{formatDate(mowing.date)}</TableCell>
+           <TableCell>{formatShortDate(mowing.date)}</TableCell>
            <TableCell>{mowing.customerName}</TableCell>
            <TableCell>{formatCurrency(Number(mowing.amount))}</TableCell>
            <TableCell className="text-end">

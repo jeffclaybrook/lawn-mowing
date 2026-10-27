@@ -6,7 +6,7 @@ import { ArrowDown, ArrowUp, ChevronLeft, ChevronRight, EllipsisVertical, Pencil
 import { toast } from "sonner"
 import { deleteExpense } from "@/actions/expenses"
 import type { ExpensesType } from "@/drizzle/schema"
-import { formatCurrency, formatDate } from "@/lib/helpers"
+import { formatCurrency, formatShortDate } from "@/lib/helpers"
 import type { ExpenseListItem } from "@/lib/queries/expenses"
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "../ui/alert-dialog"
 import { Button } from "../ui/button"
@@ -140,7 +140,7 @@ export function ExpensesTable({ expenses }: ExpensesTableProps) {
         <TableBody>
          {paginatedExpenses.map((expense) => (
           <TableRow key={expense.id} className="h-12">
-           <TableCell>{formatDate(expense.date)}</TableCell>
+           <TableCell>{formatShortDate(expense.date)}</TableCell>
            <TableCell>{expense.description}</TableCell>
            <TableCell>{formatCurrency(Number(expense.amount))}</TableCell>
            <TableCell className="text-end">
