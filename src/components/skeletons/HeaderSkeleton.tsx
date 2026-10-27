@@ -7,7 +7,7 @@ export function HeaderSkeleton() {
    <div className="flex items-center gap-2 px-4 w-full h-(--header-height)">
     <Skeleton className="size-8" />
     <Separator orientation="vertical" className="mr-2 h-(--header-height)" />
-    <Skeleton className="h-4 w-8" />
+    <Skeleton className="h-6 w-24" />
     <div className="flex items-center gap-4 ml-auto">
      <Skeleton className="size-8" />
      <Skeleton className="size-8 rounded-full" />
